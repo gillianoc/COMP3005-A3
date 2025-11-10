@@ -18,6 +18,8 @@ Alternatively, it could be run from the command line using the following steps:
 - compile with 'javac StudentManager.java'
 - run with 'java StudentManager'
 
+See demo video for this program here: https://vimeo.com/1135402864?fl=ip&fe=ec
+
 IMPORTANT NOTES:
 1) This program does not have error checking implemented, which means all data inputted for queries must conform to field requirements (i.e. not null and/or unique if applicable), 
 be the correct data type, and correct format (in the case of dates, which must be 'yyyy-mm-dd').
