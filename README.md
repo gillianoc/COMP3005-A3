@@ -13,7 +13,7 @@ In the GUI, each of these operations has a corresponding button. In scenarios wh
 appear to do so. Then, clicking 'OK' will perform the query. The GUI also contains a text area for viewing the data.
 
 To execute this program, use an IDE that supports Java (such as IntelliJ).
-Alternatively, it can be run from the command line using the following steps:
+Alternatively, it could be run from the command line using the following steps:
 - Navigate to the location of the project, then within the project to src > main > java
 - compile with 'javac StudentManager.java'
 - run with 'java StudentManager'
