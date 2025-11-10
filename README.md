@@ -22,5 +22,5 @@ IMPORTANT NOTES:
 1) This program does not have error checking implemented, which means all data inputted for queries must conform to field requirements (i.e. not null and/or unique if applicable), 
 be the correct data type, and correct format (in the case of dates, which must be 'yyyy-mm-dd').
 
-2) It is assumed that the Student table has already been created and its initial values have been set. For users who wish to do this, see Student_SQL_initial.txt for the SQL
+2) It is assumed that the Students table has already been created and its initial values have been set. For users who wish to do this, see Student_SQL_initial.txt for the SQL
    statements to create and initialize the table.
