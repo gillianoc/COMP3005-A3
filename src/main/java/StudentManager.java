@@ -6,6 +6,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.*;
 
+/**
+ * StudentManager is a class that manages the Students table in PostgresSQL and implements
+ * simple SQL functions. This class has a GUI, which contains buttons for calling such methods
+ * and displaying the current state of the table.
+ */
 public class StudentManager implements ActionListener {
     //Buttons for SQL methods
     JButton getStudentsButton;
@@ -16,9 +21,13 @@ public class StudentManager implements ActionListener {
     //Text area (for displaying table)
     JTextArea textArea;
 
-    //instance of postgresSQL connection
+    //Instance of postgresSQL connection (used by methods that implement SQL)
     public Connection connection;
 
+    /**
+     * Constructor for StudentManager.
+     * Initializes the GUI frame and the action listeners for buttons.
+     */
     public StudentManager()
     {
         //Create the GUI
@@ -29,7 +38,7 @@ public class StudentManager implements ActionListener {
 
         //Create a button panel for the user actions
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setLayout(new GridLayout(1,4));
         getStudentsButton = new JButton("Get all Students");
         addStudentButton = new JButton("Add Student");
         updateEmailButton = new JButton("Update Student Email");
@@ -52,15 +61,14 @@ public class StudentManager implements ActionListener {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         //Create action listeners for the buttons
-
         getStudentsButton.addActionListener(this);
         addStudentButton.addActionListener(this);
         updateEmailButton.addActionListener(this);
         deleteStudentButton.addActionListener(this);
 
         //Finish frame setup
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // exit when we hit the "X"
-        frame.pack(); // pack everthing into our frame
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
         frame.setSize(900,300);
         frame.setResizable(true);
         frame.setVisible(true);
@@ -83,6 +91,11 @@ public class StudentManager implements ActionListener {
         });
     }
 
+    /**
+     * Handles action event for buttons by prompting user for inputs (where applicable)
+     * and calls corresponding methods.
+     * @param e The event to be processed
+     */
     public void actionPerformed(ActionEvent e)
     {
         Object obj = e.getSource();
@@ -111,10 +124,14 @@ public class StudentManager implements ActionListener {
                 panel.add(new JLabel("Enrollment Date:"));
                 panel.add(enrollmentDateField);
 
-                JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int selectedButton = JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                //Add the student to the table with the user entered credentials
-                addStudent(firstNameField.getText(), lastNameField.getText(), emailField.getText(), enrollmentDateField.getText());
+                //Check that the user pressed ok (stops crash when cancel button is pressed)
+                if(selectedButton == JOptionPane.OK_OPTION)
+                {
+                    //Add the student to the table with the user entered credentials
+                    addStudent(firstNameField.getText(), lastNameField.getText(), emailField.getText(), enrollmentDateField.getText());
+                }
             }
             else if(pressedButton == deleteStudentButton)
             {
@@ -124,10 +141,14 @@ public class StudentManager implements ActionListener {
                 panel.add(new JLabel("Student ID:"));
                 panel.add(idField);
 
-                JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int selectedButton = JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                //Remove the student with the specified id
-                deleteStudent(idField.getText());
+                //Check that the user pressed ok (stops crash when cancel button is pressed)
+                if(selectedButton == JOptionPane.OK_OPTION)
+                {
+                    //Remove the student with the specified id
+                    deleteStudent(idField.getText());
+                }
             }
             else if(pressedButton == updateEmailButton)
             {
@@ -140,16 +161,20 @@ public class StudentManager implements ActionListener {
                 panel.add(new JLabel(("New Email:")));
                 panel.add(newEmailField);
 
-                JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                int selectedButton = JOptionPane.showConfirmDialog(null, panel, "Enter Student's Information", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                //Remove the student with the specified id
-                updateStudentEmail(idField.getText(), newEmailField.getText());
+                //Check that the user pressed ok (stops crash when cancel button is pressed)
+                if(selectedButton == JOptionPane.OK_OPTION)
+                {
+                    //Remove the student with the specified id
+                    updateStudentEmail(idField.getText(), newEmailField.getText());
+                }
             }
         }
     }
 
     /**
-     * Print the current state of the table
+     * Print the current state of the table.
      */
     public void getAllStudents()
     {
@@ -182,7 +207,12 @@ public class StudentManager implements ActionListener {
     }
 
     /**
-     * Add a new row to the Student table with the provided data
+     * Add a new student entry to the table.
+     *
+     * @param firstName The first name of the student being added to the table
+     * @param lastName The last name of the student being added to the table
+     * @param email The email address of the student being added to the table
+     * @param enrollmentDate The enrollment date of the student being added to the table
      */
     public void addStudent(String firstName, String lastName, String email, String enrollmentDate)
     {
@@ -207,7 +237,10 @@ public class StudentManager implements ActionListener {
     }
 
     /**
-     * Change the email for a student
+     * Change the email address for a student currently in the table.
+     *
+     * @param studentId The student ID for the student whose email address is being changed
+     * @param newEmail The student's new email address
      */
     public void updateStudentEmail(String studentId, String newEmail)
     {
@@ -227,7 +260,9 @@ public class StudentManager implements ActionListener {
     }
 
     /**
-     * Remove a student from the table
+     * Remove a student from the table.
+     *
+     * @param studentId The student ID for the student being removed
      */
     public void deleteStudent(String studentId)
     {
@@ -243,6 +278,13 @@ public class StudentManager implements ActionListener {
         }
     }
 
+    /**
+     * Main method.
+     * Creates an instance of the GUI and performs the connection to the
+     * existing Student table in PostgresSQL (initialized with three students).
+     *
+     * @param args The arguments passed to the main method (not applicable)
+     */
     public static void main(String[] args)
     {
         //Create the view
