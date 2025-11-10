@@ -6,7 +6,7 @@ This program performs simple SQL operations on the Students table, which is stru
 - enrollment_date: Date
 
 This program uses JDBC to connect to a table in a PostgreSQL database. The connection credentials to this are hard-coded in the main method and must be changed by the user if 
-configurations vary. 
+configurations vary. The program uses a Maven structure to include the PostgreSQL driver as a dependency in the pom.xml file.
 
 This program supports operations to retrieve all the data in the table, add a student to the table, remove a student from the table, and update a particular student's email.
 In the GUI, each of these operations has a corresponding button. In scenarios where the user is required to enter information to perform the desired query, an input dialogue will
